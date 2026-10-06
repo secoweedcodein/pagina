@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(~{::title}, ~{::section})}">
+<head><title>Usuarios | Administración</title></head>
+<body>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <h1 class="text-2xl font-semibold">Usuarios registrados</h1>
+    <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+        <table class="w-full text-sm text-left"><thead><tr class="border-b dark:border-gray-800"><th class="p-3">Nombre</th><th class="p-3">Usuario</th><th class="p-3">Email</th><th class="p-3">Rol</th><th class="p-3">Estado</th></tr></thead>
+            <tbody><tr th:each="u : ${usuarios}" class="border-b dark:border-gray-800"><td class="p-3" th:text="${u.nombre + ' ' + u.apellido}"></td><td class="p-3" th:text="${u.username}"></td><td class="p-3" th:text="${u.email}"></td><td class="p-3" th:text="${u.rol}"></td><td class="p-3" th:text="${u.activo ? 'Activo' : 'Inactivo'}"></td></tr>
+            <tr th:if="${#lists.isEmpty(usuarios)}"><td colspan="5" class="p-6 text-center text-gray-500">No hay usuarios.</td></tr></tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(~{::title}, ~{::section})}">
+<head>
+    <title>Inicio</title>
+</head>
+<body>
+<section>
+    <div class="bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="text-center max-w-3xl mx-auto space-y-6">
+                <h1 class="text-4xl md:text-5xl font-bold tracking-tight">Tienda web profesional con <span class="text-indigo-600">IA integrada</span></h1>
+                <p class="text-lg text-gray-600 dark:text-gray-400">Catálogo moderno, diseño profesional, modo oscuro/claro, asistente IA y panel de administración.</p>
+                <div class="flex justify-center gap-3">
+                    <a th:href="@{/catalogo}" class="px-5 py-2.5 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition">Ver Catálogo</a>
+                    <a th:href="@{/auth/register}" class="px-5 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900 transition">Crear Cuenta</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-semibold">Productos Destacados</h2>
+            <a th:href="@{/catalogo}" class="text-sm text-indigo-600 hover:underline">Ver todos</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div th:each="p : ${destacados}" class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden shadow-sm hover:shadow-md transition">
+                <a th:href="@{/producto/{id}(id=${p.id})}">
+                    <img th:if="${p.imagenPrincipalUrl}" th:src="${p.imagenPrincipalUrl}" th:alt="${p.nombre}" class="h-48 w-full object-cover">
+                    <div th:unless="${p.imagenPrincipalUrl}" class="h-48 w-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400">Sin imagen</div>
+                </a>
+                <div class="p-4 space-y-2">
+                    <a th:href="@{/producto/{id}(id=${p.id})}" class="font-medium hover:text-indigo-600 line-clamp-1" th:text="${p.nombre}">Nombre</a>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2" th:text="${p.descripcion}">Descripción</p>
+                    <div class="flex items-center justify-between">
+                        <span class="font-semibold text-indigo-600" th:text="${p.precio} + ' €'">0.00 €</span>
+                        <span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800" th:text="${p.estado}">ACTIVO</span>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${#lists.isEmpty(destacados)}" class="col-span-full text-center text-gray-500 py-10">No hay productos destacados</div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h2 class="text-xl font-semibold mb-6">Categorías</h2>
+        <div class="flex flex-wrap gap-2">
+            <a th:each="c : ${categorias}" th:href="@{/catalogo(categoriaId=${c.id})}" class="px-3 py-1.5 rounded-full border border-gray-300 dark:border-gray-700 text-sm hover:bg-gray-50 dark:hover:bg-gray-900" th:text="${c.nombre}">Cat</a>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <h2 class="text-xl font-semibold mb-6">Últimos Productos</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div th:each="p : ${ultimos}" class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden shadow-sm">
+                <a th:href="@{/producto/{id}(id=${p.id})}">
+                    <img th:if="${p.imagenPrincipalUrl}" th:src="${p.imagenPrincipalUrl}" th:alt="${p.nombre}" class="h-40 w-full object-cover">
+                    <div th:unless="${p.imagenPrincipalUrl}" class="h-40 w-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400">Sin imagen</div>
+                </a>
+                <div class="p-3">
+                    <a th:href="@{/producto/{id}(id=${p.id})}" class="text-sm font-medium line-clamp-1" th:text="${p.nombre}"></a>
+                    <span class="text-sm text-indigo-600" th:text="${p.precio} + ' €'"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <h2 class="text-xl font-semibold mb-6">Preguntas Frecuentes</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+            <div class="p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                <h3 class="font-medium mb-1">¿Es responsive?</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Sí, adaptado a móvil, tablet y escritorio con Grid 3x2.</p>
+            </div>
+            <div class="p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                <h3 class="font-medium mb-1">¿Tiene modo oscuro/claro?</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Sí, con persistencia en localStorage.</p>
+            </div>
+            <div class="p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                <h3 class="font-medium mb-1">¿Incluye IA?</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Sí, asistente flotante (Chat + IA-Genere) con logs.</p>
+            </div>
+            <div class="p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                <h3 class="font-medium mb-1">¿Conecta con Supabase?</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">PostgreSQL + Supabase Storage listos para producción.</p>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

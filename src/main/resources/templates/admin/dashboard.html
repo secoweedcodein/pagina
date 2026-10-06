@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(~{::title}, ~{::section})}">
+<head><title>Admin Dashboard</title></head>
+<body>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div>
+        <h1 class="text-xl font-semibold">Panel de Administración</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Resumen y gestión</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+            <div class="text-sm text-gray-500 dark:text-gray-400">Usuarios</div>
+            <div class="text-2xl font-semibold" th:text="${totalUsuarios}">0</div>
+        </div>
+        <div class="p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+            <div class="text-sm text-gray-500 dark:text-gray-400">Productos</div>
+            <div class="text-2xl font-semibold" th:text="${totalProductos}">0</div>
+        </div>
+        <div class="p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+            <div class="text-sm text-gray-500 dark:text-gray-400">Interacciones IA</div>
+            <div class="text-2xl font-semibold" th:text="${totalLogs}">0</div>
+        </div>
+    </div>
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+            <div class="font-medium">Últimas Actividades</div>
+            <a th:href="@{/admin/logs-ia}" class="text-sm text-indigo-600 hover:underline">Ver todo</a>
+        </div>
+        <div class="divide-y divide-gray-200 dark:divide-gray-800">
+            <div th:each="log : ${logs}" class="p-3 flex items-center justify-between text-sm">
+                <div>
+                    <span class="font-medium" th:text="${log.accion}"></span>
+                    <span class="text-gray-500 dark:text-gray-400">·</span>
+                    <span class="text-gray-500 dark:text-gray-400" th:text="${log.modulo}"></span>
+                </div>
+                <span class="text-gray-400" th:text="${#temporals.format(log.createdAt, 'dd/MM/yyyy HH:mm')}"></span>
+            </div>
+            <div th:if="${#lists.isEmpty(logs)}" class="p-4 text-center text-gray-500">Sin registros</div>
+        </div>
+    </div>
+    <div class="flex flex-wrap gap-2">
+        <a th:href="@{/admin/usuarios}" class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-sm hover:bg-gray-50 dark:hover:bg-gray-900">Usuarios</a>
+        <a th:href="@{/admin/productos}" class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-sm hover:bg-gray-50 dark:hover:bg-gray-900">Productos</a>
+        <a th:href="@{/admin/categorias}" class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-sm hover:bg-gray-50 dark:hover:bg-gray-900">Categorías</a>
+        <a th:href="@{/admin/media}" class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-sm hover:bg-gray-50 dark:hover:bg-gray-900">Multimedia</a>
+        <a th:href="@{/admin/logs-ia}" class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-sm hover:bg-gray-50 dark:hover:bg-gray-900">Logs IA</a>
+    </div>
+</section>
+</body>
+</html>

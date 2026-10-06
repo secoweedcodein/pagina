@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(~{::title}, ~{::section})}">
+<head><title>Catálogo</title></head>
+<body>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+            <h1 class="text-xl font-semibold">Catálogo de Productos</h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Explora nuestros artículos en venta</p>
+        </div>
+        <form th:action="@{/catalogo}" method="get" class="flex flex-wrap gap-2">
+            <input type="text" name="q" th:value="${q}" placeholder="Buscar..." class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm">
+            <select name="categoriaId" class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm">
+                <option value="">Todas las categorías</option>
+                <option th:each="c : ${categorias}" th:value="${c.id}" th:text="${c.nombre}" th:selected="${c.id == categoriaId}"></option>
+            </select>
+            <input type="number" min="0" step="0.01" name="precioMin" th:value="${precioMin}" placeholder="Min €" class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm w-28">
+            <input type="number" min="0" step="0.01" name="precioMax" th:value="${precioMax}" placeholder="Max €" class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm w-28">
+            <button class="px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm hover:bg-indigo-700">Filtrar</button>
+        </form>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div th:each="p : ${productos.content}" class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden shadow-sm">
+            <a th:href="@{/producto/{id}(id=${p.id})}">
+                <img th:if="${p.imagenPrincipalUrl}" th:src="${p.imagenPrincipalUrl}" th:alt="${p.nombre}" class="h-48 w-full object-cover">
+                <div th:unless="${p.imagenPrincipalUrl}" class="h-48 w-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400">Sin imagen</div>
+            </a>
+            <div class="p-4 space-y-2">
+                <a th:href="@{/producto/{id}(id=${p.id})}" class="font-medium hover:text-indigo-600 line-clamp-1" th:text="${p.nombre}"></a>
+                <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2" th:text="${p.descripcion}"></p>
+                <div class="flex items-center justify-between">
+                    <span class="font-semibold text-indigo-600" th:text="${p.precio} + ' €'"></span>
+                    <a th:href="@{/producto/{id}(id=${p.id})}" class="text-sm text-indigo-600 hover:underline">Ver detalle</a>
+                </div>
+            </div>
+        </div>
+        <div th:if="${productos.empty}" class="col-span-full text-center text-gray-500 py-10">No se encontraron productos</div>
+    </div>
+    <nav th:if="${productos.totalPages > 1}" class="flex justify-center gap-2" aria-label="Paginación">
+        <a th:if="${productos.hasPrevious()}" th:href="@{/catalogo(page=${productos.number - 1},q=${q},categoriaId=${categoriaId},precioMin=${precioMin},precioMax=${precioMax})}" class="px-3 py-2 rounded border">Anterior</a>
+        <span class="px-3 py-2 text-sm" th:text="|Página ${productos.number + 1} de ${productos.totalPages}|"></span>
+        <a th:if="${productos.hasNext()}" th:href="@{/catalogo(page=${productos.number + 1},q=${q},categoriaId=${categoriaId},precioMin=${precioMin},precioMax=${precioMax})}" class="px-3 py-2 rounded border">Siguiente</a>
+    </nav>
+</section>
+</body>
+</html>

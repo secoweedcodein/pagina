@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(~{::title}, ~{::section})}">
+<head><title>Registro</title></head>
+<body>
+<section class="min-h-[70vh] flex items-center justify-center px-4 py-10">
+    <div class="w-full max-w-lg bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm p-6 space-y-4">
+        <div class="text-center">
+            <h1 class="text-xl font-semibold">Crear Cuenta</h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Registro rápido y sencillo</p>
+        </div>
+        <form th:action="@{/auth/register}" th:object="${registro}" method="post" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div th:if="${#fields.hasGlobalErrors()}" class="md:col-span-2 text-sm text-red-600" th:each="error : ${#fields.globalErrors()}" th:text="${error}">Revisa los datos</div>
+            <div>
+                <label class="text-sm">Nombre</label>
+                <input th:field="*{nombre}" required class="mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <p th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="text-sm text-red-600"></p>
+            </div>
+            <div>
+                <label class="text-sm">Apellido</label>
+                <input th:field="*{apellido}" required class="mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <p th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" class="text-sm text-red-600"></p>
+            </div>
+            <div class="md:col-span-2">
+                <label class="text-sm">Username</label>
+                <input th:field="*{username}" required class="mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-sm text-red-600"></p>
+            </div>
+            <div class="md:col-span-2">
+                <label class="text-sm">Email</label>
+                <input th:field="*{email}" type="email" required class="mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-sm text-red-600"></p>
+            </div>
+            <div>
+                <label class="text-sm">Contraseña</label>
+                <input th:field="*{password}" type="password" minlength="6" required class="mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-sm text-red-600"></p>
+            </div>
+            <div>
+                <label class="text-sm">Confirmar</label>
+                <input th:field="*{confirmPassword}" type="password" minlength="6" required class="mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="text-sm text-red-600"></p>
+            </div>
+            <div class="md:col-span-2">
+                <button type="submit" class="w-full px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm hover:bg-indigo-700">Registrarme</button>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

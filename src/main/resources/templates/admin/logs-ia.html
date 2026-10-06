@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(~{::title}, ~{::section})}">
+<head><title>Actividad de IA | Administración</title></head>
+<body>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <h1 class="text-2xl font-semibold">Actividad de IA</h1>
+    <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+        <table class="w-full text-sm text-left"><thead><tr class="border-b dark:border-gray-800"><th class="p-3">Fecha</th><th class="p-3">Usuario</th><th class="p-3">Tipo</th><th class="p-3">Estado</th><th class="p-3">Modelo</th></tr></thead>
+            <tbody><tr th:each="i : ${interacciones}" class="border-b dark:border-gray-800"><td class="p-3" th:text="${#temporals.format(i.createdAt, 'dd/MM/yyyy HH:mm')}"></td><td class="p-3" th:text="${i.usuario != null ? i.usuario.email : 'Anónimo'}"></td><td class="p-3" th:text="${i.tipoInteraccion}"></td><td class="p-3" th:text="${i.estado}"></td><td class="p-3" th:text="${i.modeloIa}"></td></tr>
+            <tr th:if="${#lists.isEmpty(interacciones)}"><td colspan="5" class="p-6 text-center text-gray-500">Todavía no hay interacciones de IA.</td></tr></tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

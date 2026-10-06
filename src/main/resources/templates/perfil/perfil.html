@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(~{::title}, ~{::section})}">
+<head><title>Perfil</title></head>
+<body>
+<section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div>
+        <h1 class="text-xl font-semibold">Mi Perfil</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Datos personales</p>
+    </div>
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6 space-y-4">
+        <div class="flex items-center gap-4">
+            <img th:if="${usuario.avatarUrl}" th:src="${usuario.avatarUrl}" alt="Avatar" class="h-16 w-16 rounded-full object-cover border border-gray-200 dark:border-gray-800">
+            <div th:unless="${usuario.avatarUrl}" class="h-16 w-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">?</div>
+            <form th:action="@{/perfil/avatar}" method="post" enctype="multipart/form-data" class="flex items-center gap-2">
+                <input type="file" name="avatar" accept="image/*" required class="text-sm">
+                <button class="px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm hover:bg-indigo-700">Cambiar avatar</button>
+            </form>
+        </div>
+        <div class="grid md:grid-cols-2 gap-3 text-sm">
+            <div><span class="text-gray-500">Nombre:</span> <span th:text="${usuario.nombre + ' ' + usuario.apellido}"></span></div>
+            <div><span class="text-gray-500">Username:</span> <span th:text="${usuario.username}"></span></div>
+            <div class="md:col-span-2"><span class="text-gray-500">Email:</span> <span th:text="${usuario.email}"></span></div>
+            <div><span class="text-gray-500">Rol:</span> <span th:text="${usuario.rol}"></span></div>
+            <div><span class="text-gray-500">Activo:</span> <span th:text="${usuario.activo ? 'Sí' : 'No'}"></span></div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

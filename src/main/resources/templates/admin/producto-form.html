@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(~{::title}, ~{::section})}">
+<head><title>Nuevo producto</title></head>
+<body>
+<section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-2xl font-semibold mb-6">Crear producto</h1>
+    <form th:action="@{/admin/productos/nuevo}" th:object="${producto}" method="post" enctype="multipart/form-data" class="space-y-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6">
+        <div th:if="${#fields.hasGlobalErrors()}" th:each="error : ${#fields.globalErrors()}" th:text="${error}" class="text-red-600"></div>
+        <label class="block text-sm">Nombre<input th:field="*{nombre}" required maxlength="200" class="mt-1 w-full rounded-lg border bg-transparent p-2"></label>
+        <p th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="text-sm text-red-600"></p>
+        <label class="block text-sm">Descripción<textarea th:field="*{descripcion}" rows="4" maxlength="5000" class="mt-1 w-full rounded-lg border bg-transparent p-2"></textarea></label>
+        <div class="grid sm:grid-cols-2 gap-4">
+            <label class="block text-sm">Precio<input th:field="*{precio}" type="number" min="0" step="0.01" required class="mt-1 w-full rounded-lg border bg-transparent p-2"></label>
+            <label class="block text-sm">Stock<input th:field="*{stock}" type="number" min="0" required class="mt-1 w-full rounded-lg border bg-transparent p-2"></label>
+        </div>
+        <label class="block text-sm">Categoría<select th:field="*{categoriaId}" required class="mt-1 w-full rounded-lg border bg-white p-2 text-gray-900"><option value="">Selecciona una categoría</option><option th:each="c : ${categorias}" th:value="${c.id}" th:text="${c.nombre}"></option></select></label>
+        <label class="block text-sm">Imagen<input type="file" name="imagen" accept="image/jpeg,image/png,image/webp,image/gif" class="mt-1 block w-full"></label>
+        <label class="flex items-center gap-2 text-sm"><input th:field="*{destacado}" type="checkbox"> Mostrar como destacado</label>
+        <div class="flex gap-3"><button type="submit" class="rounded-lg bg-indigo-600 px-4 py-2 text-white">Guardar</button><a th:href="@{/admin/productos}" class="rounded-lg border px-4 py-2">Cancelar</a></div>
+    </form>
+</section>
+</body>
+</html>

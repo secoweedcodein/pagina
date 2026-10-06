@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(~{::title}, ~{::section})}">
+<head><title>Categorías | Administración</title></head>
+<body>
+<section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <h1 class="text-2xl font-semibold">Categorías</h1>
+    <p th:if="${success}" th:text="${success}" class="text-green-600"></p><p th:if="${error}" th:text="${error}" class="text-red-600"></p>
+    <form th:action="@{/admin/categorias}" method="post" class="grid md:grid-cols-3 gap-3 rounded-xl border p-4">
+        <label class="text-sm">Nombre<input name="nombre" required maxlength="100" class="mt-1 w-full rounded-lg border bg-transparent p-2"></label>
+        <label class="text-sm md:col-span-2">Descripción<input name="descripcion" maxlength="1000" class="mt-1 w-full rounded-lg border bg-transparent p-2"></label>
+        <button class="rounded-lg bg-indigo-600 px-4 py-2 text-white md:col-span-3">Añadir categoría</button>
+    </form>
+    <div class="divide-y rounded-xl border dark:divide-gray-800">
+        <div th:each="c : ${categorias}" class="flex items-center justify-between gap-4 p-4">
+            <div><strong th:text="${c.nombre}"></strong><p class="text-sm text-gray-500" th:text="${c.descripcion}"></p></div>
+            <form th:action="@{/admin/categorias/{id}/desactivar(id=${c.id})}" method="post"><button class="text-sm text-red-600 hover:underline">Desactivar</button></form>
+        </div>
+        <p th:if="${#lists.isEmpty(categorias)}" class="p-4 text-gray-500">No hay categorías activas.</p>
+    </div>
+</section>
+</body>
+</html>
